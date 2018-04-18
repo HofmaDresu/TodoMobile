@@ -12,6 +12,8 @@
     platforms (mostly). There are some exceptions for truly native behavior, of course, like Notifications (which we won't get into today) and platform-specific
     elements like the Android Floating Action Button (we'll talk more about that later in this post). For now let's just get started and see what we get out of
     the box.
+    <br />
+    Note: All of my steps are using Visual Studio 2017 Community on Windows. Your mileage may vary if you work on a different edition of VS or on Visual Studio for Mac.
     </p>
     <h3>Tools and Environment</h3>
     <p>
@@ -58,5 +60,54 @@
     Out of the box we have a Hello World app running on both Android and iOS. It's not very exciting yet, but this is where the real fun begins.
     </p>
     <h3>Displaying a list of TODO items</h3>
+    <p>
+    The first thing we want to do is define our TODO item. We'll create a new class called TodoItem.cs that has the basic properties we want: Id, Title, and IsCompleted.
+    Right click on the TodoXamarinForms project and select Add-&gt;Class. Name the class and click 'OK'. This creates a basic C# class that we'll add our
+    properties to
+    <pre>
+namespace TodoXamarinForms
+{
+    public class TodoItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool IsCompleted { get; set; } 
+    }
+}
+    </pre>
+    </p>
+    <p>
+    Now we want to start creating the UI. Xamarin forms uses XAML for UI development, which allows us to use databinding to display our TODO items. To do this, we're first going to create
+    a View Model class called TodoListViewModel.cs. To save ourselves some time and boilerplate code, we're going to us the MvvmHelpers library.
+    <br />
+    Right click on the Solution and select Manage NuGetPackages for Solution. Search for Refractored.MvvmHelpers and install it on all projects.
+    <br >
+    <img src="./MvvmHelpers.png" width="500" />
+    </p>
+    Now we'll create our View Model. Follow the same steps we used to create TodoItem and add one property: TodoList. Then subclass BaseViewModel. 
+    <pre>
+using MvvmHelpers;
+using System.Collections.ObjectModel;
+
+namespace TodoXamarinForms
+{
+    public class TodoListViewModel : BaseViewModel
+    {
+        public ObservableCollection<TodoItem> TodoList { get; set; }
+    }
+}
+    </pre>
+    The final thing we want to do for now is to create a default list of Todo items so we have something to display. We'll start by hard-coding a few
+    items.
+    <pre>
+...
+public ObservableCollection<TodoItem> TodoList { get; set; } = new ObservableCollection<TodoItem>
+{
+    new TodoItem { Id = 0, Title = "Create First Todo", IsCompleted = true},
+    new TodoItem { Id = 1, Title = "Run a Marathon"},
+    new TodoItem { Id = 2, Title = "Create TodoXamarinForms blog post"},
+}; 
+...
+    </pre>
 </body>
 </html>
