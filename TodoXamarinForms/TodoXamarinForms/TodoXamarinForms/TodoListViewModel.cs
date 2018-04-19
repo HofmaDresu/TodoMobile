@@ -4,7 +4,7 @@ namespace TodoXamarinForms
 {
     class TodoListViewModel : BaseFodyObservable
     {
-        public string Title { get; set; }
+        public string Title => "My Todo list";
         public ObservableCollection<TodoItem> TodoList { get; set; } = new ObservableCollection<TodoItem>
         {
             new TodoItem { Id = 0, Title = "Create First Todo", IsCompleted = true},

@@ -49,9 +49,9 @@
     our app and see what we have! Make sure either the iOS or Android project is set as your startup project (it should be listed in <b>bold</b>) and 
     either hit the green 'play' button or the F5 key. This will launch your emulator (simulator if iOS) and deploy the app.
     <br />
-    <div>
+    <div class="os-screenshots">
         <label>Android</label>
-        <img src="./HelloWorld.png" width="300" />
+        <img src="./HelloWorldAndroid.png" width="300" />
         <label>iOS</label>
         <img src="" width="300">
         <!--TODO: iOS screenshot -->
@@ -124,7 +124,7 @@ namespace TodoXamarinForms
 {
     public class TodoListViewModel : BaseFodyObservable
     {
-        public string Title { get; set; }
+        public string Title =&gt; "My Todo List";
         public ObservableCollection<TodoItem> TodoList { get; set; }
     }
 }
@@ -141,5 +141,93 @@ public ObservableCollection<TodoItem> TodoList { get; set; } = new ObservableCol
 }; 
 ...
     </pre>
+    </p>
+    <p>
+    Now we want to create our list screen and bind it to the data we created above. We could just edit the MainPage.xaml file that was created for us,
+    however I don't like that name so we're going to create our own. Right click on the TodoXamarinForms project and select 'Add-&gt;New Item'. From
+    here select 'Xamarin.Forms-&gt;Content Page' and name it TodoListView. This creates a new XAML page with a C# code behind, but we still need to
+    tell it to use our View Model. Open TodoListView.xaml.cs and in the constructor set BindingContext to a new instance of TodoListViewModel.
+    <pre>
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TodoXamarinForms
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class TodoListView : ContentPage
+	{
+		public TodoListView ()
+		{
+			InitializeComponent ();
+            BindingContext = new TodoListViewModel();
+		}
+	}
+}
+    </pre>
+    Next we'll create our UI and bind it to the data in our View Model. For now this will just be a simple screen that displays our
+    list of TODO items. Open TodoList.xaml and delete everything from within the ContentPage.Content tag. Replace it with a ListView and bind the data from
+    our View Model. We should also set the page title and bind it to our View Model.
+    <pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoXamarinForms.TodoListView"
+             Title="{Binding Title}"&gt;
+    &lt;ContentPage.Content&gt;
+        &lt;ListView ItemsSource="{Binding TodoList}"&gt;
+            
+        &lt;/ListView&gt;
+    &lt;/ContentPage.Content&gt;
+&lt;/ContentPage&gt;
+    </pre>
+    </p>
+    <p>
+    If we try to run the app now we'll still see the Hello World screen from the initial project creation, and we may ask "What's going on?". This is
+    because we have one step remaining: we need to tell our app to start on our new screen. Open App.xaml.cs and replace the MainPage line with
+    <pre>
+...
+MainPage = new NavigationPage(new TodoListView());
+...
+    </pre>
+    This line does a couple things. The most obvious portion is that it instantiates our TodoListView and sets the MainPage of our application. We also
+    wrapped our View in a new instance of NavigationPage. This does a couple things for us: it handles the iOS Safe Area and sets up
+    the structure we'll use for navigation later in the app.
+    </p>
+    <p>
+    Now when we run the app, we see our new screen with a title and a list of "TodoXamarinForms.TodoItem". This isn't quite what we want, as it'd be
+    much more useful to show the TodoItem's Title.
+    <br />
+    <div class="os-screenshots">
+        <label>Android</label>
+        <img src="./InitialListViewAndroid.png" width="300" />
+        <label>iOS</label>
+        <img src="" width="300">
+        <!--TODO: iOS screenshot -->
+    </div>
+    </p>
+    <p>
+    To show our TodoItems's Title, we're going to use a built in control called TextCell. There are many other controls we could use if we wanted a
+    different layout, but for our simple app TextCell is more than sufficient. Open TodoListView.xaml and add the new TextCell to the ListView tag, binding
+    the Text attribute to your Title property. Since this is in the context of our ListView, this binds to the individual TodoItem's Title property.
+    <pre>
+...
+&lt;ListView ItemsSource="{Binding TodoList}"&gt;
+    &lt;ListView.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;TextCell Text="{Binding Title}" /&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/ListView.ItemTemplate&gt;
+&lt;/ListView&gt;
+...
+    </pre>
+    If we run the app now, we'll see our todo item titles listed on the screen
+    </p>
+    <div class="os-screenshots">
+        <label>Android</label>
+        <img src="./TitleBoundListViewAndroid.png" width="300" />
+        <label>iOS</label>
+        <img src="" width="300">
+        <!--TODO: iOS screenshot -->
+    </div>
 </body>
 </html>

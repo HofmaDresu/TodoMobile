@@ -13,7 +13,7 @@ namespace TodoXamarinForms
 		{
 			InitializeComponent();
 
-			MainPage = new TodoXamarinForms.MainPage();
+			MainPage = new NavigationPage(new TodoListView());
 		}
 
 		protected override void OnStart ()
