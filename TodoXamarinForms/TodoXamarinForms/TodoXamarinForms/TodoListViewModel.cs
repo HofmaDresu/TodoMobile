@@ -1,10 +1,10 @@
-﻿using MvvmHelpers;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace TodoXamarinForms
 {
-    public class TodoListViewModel : BaseViewModel
+    class TodoListViewModel : BaseFodyObservable
     {
+        public string Title { get; set; }
         public ObservableCollection<TodoItem> TodoList { get; set; } = new ObservableCollection<TodoItem>
         {
             new TodoItem { Id = 0, Title = "Create First Todo", IsCompleted = true},

@@ -1,6 +1,6 @@
 ﻿namespace TodoXamarinForms
 {
-    public class TodoItem
+    class TodoItem : BaseFodyObservable
     {
         public int Id { get; set; }
         public string Title { get; set; }

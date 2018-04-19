@@ -61,13 +61,50 @@
     </p>
     <h3>Displaying a list of TODO items</h3>
     <p>
-    The first thing we want to do is define our TODO item. We'll create a new class called TodoItem.cs that has the basic properties we want: Id, Title, and IsCompleted.
-    Right click on the TodoXamarinForms project and select Add-&gt;Class. Name the class and click 'OK'. This creates a basic C# class that we'll add our
-    properties to
+    Xamarin Forms uses XAML for UI developent, which provides access to two way databinding. Unfortunately, there is a little boilerplate code required
+    to get this working. We're going to use the <a href="">Fody</a> package and a base class to clean that up a little.
+    </p>
+    <p>
+    First we'll install the Fody package. Right click on the solution and select 'Manage NuGet Packages for Solution'. Search for PropertyChanged.Fody
+    and install it on the .NET Standard project (reminder: the one that says neither Android nor iOS). Next we need to create a configuration XML file.
+    <br />
+    <img src="./FODY.png" width="500" />
+    <br />
+    Right click on the TodoXamarinForms project and select 'Add-&gt;New Item'. Select XML from the list and name it FodyWeavers.xml. Paste this content
+    into the file:
+    <pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;Weavers&gt;
+  &lt;PropertyChanged/&gt;
+&lt;/Weavers&gt;
+    </pre>
+    Finally we want to create a base class we'll use to make our other classes observable. Right click on TodoXamarinForms again and select Add-&gt;Class.
+    Name the class BaseFodyObservable.cs. In the class, implement INotifyPropertyChanged.
+    <pre>
+using System.ComponentModel;
+
+namespace TodoXamarinForms
+{
+    class BaseFodyObservable : INotifyPropertyChanged
+    {
+#pragma warning disable CS0067
+        public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore
+    }
+}
+    </pre>
+    You may notice a couple weird looking #pragma statements in the sample code. These aren't strictly needed, but they tell the compiler to ignore
+    the fact that nothing directly uses the PropertyChanged event. This has no effect on the functionality of our app, but I prefer to hide this warning
+    since we know it will be used by the Fody package.
+    </p>
+    <p>
+    Now that we have the boilerplate out of the way, we should is define our TODO item. Since this is a simple app, we only have 3 properties we care
+    about for a todo: a unique id, a title, and whether or not it has been completed. For this we'll create a new class called TodoItem.cs that is a
+    subclass of our BaseFodyObservable. Follow the same steps used to create the BaseFodyObservable file and add the following content:
     <pre>
 namespace TodoXamarinForms
 {
-    public class TodoItem
+    public class TodoItem : BaseFodyObservable
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -77,22 +114,17 @@ namespace TodoXamarinForms
     </pre>
     </p>
     <p>
-    Now we want to start creating the UI. Xamarin forms uses XAML for UI development, which allows us to use databinding to display our TODO items. To do this, we're first going to create
-    a View Model class called TodoListViewModel.cs. To save ourselves some time and boilerplate code, we're going to us the MvvmHelpers library.
-    <br />
-    Right click on the Solution and select Manage NuGetPackages for Solution. Search for Refractored.MvvmHelpers and install it on all projects.
-    <br >
-    <img src="./MvvmHelpers.png" width="500" />
-    </p>
-    Now we'll create our View Model. Follow the same steps we used to create TodoItem and add one property: TodoList. Then subclass BaseViewModel. 
+    Now it's time to start looking at the data we want to show on our landing screen. To start with, we want to display a title at the top of the screen
+    and show a list of our todo items. We'll create a view model called TodoListViewModel that holds this data. Don't forget to make this a subclass of
+    BaseFodyObservable as well.
     <pre>
-using MvvmHelpers;
 using System.Collections.ObjectModel;
 
 namespace TodoXamarinForms
 {
-    public class TodoListViewModel : BaseViewModel
+    public class TodoListViewModel : BaseFodyObservable
     {
+        public string Title { get; set; }
         public ObservableCollection<TodoItem> TodoList { get; set; }
     }
 }
