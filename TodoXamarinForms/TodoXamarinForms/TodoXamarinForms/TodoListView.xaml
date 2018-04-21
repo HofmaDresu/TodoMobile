@@ -4,7 +4,9 @@
              x:Class="TodoXamarinForms.TodoListView"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding TodoList}">
+        <ListView ItemsSource="{Binding GroupedTodoList}"
+                  IsGroupingEnabled="True"
+                  GroupDisplayBinding="{Binding Key}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Title}" />
