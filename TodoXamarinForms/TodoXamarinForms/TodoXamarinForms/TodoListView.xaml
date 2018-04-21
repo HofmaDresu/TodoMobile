@@ -2,7 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoXamarinForms.TodoListView"
+             xmlns:local="clr-namespace:TodoXamarinForms"
              Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ChangeCompleteActionTextConverter x:Key="ChangeCompletedActionTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ListView ItemsSource="{Binding GroupedTodoList}"
                   IsGroupingEnabled="True"
@@ -13,7 +19,7 @@
                     <TextCell Text="{Binding Title}" >
                         <TextCell.ContextActions>
                             <MenuItem Command="{Binding Source={x:Reference TodoDisplayList}, Path=BindingContext.ChangeIsCompleted }"
-                                      CommandParameter="{Binding .}" Text="Complete" />
+                                      CommandParameter="{Binding .}" Text="{Binding IsCompleted, Converter={StaticResource ChangeCompletedActionTextConverter}}" />
                             <MenuItem Command="{Binding Source={x:Reference TodoDisplayList}, Path=BindingContext.Delete }" 
                                       CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
                         </TextCell.ContextActions>
