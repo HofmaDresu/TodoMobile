@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TodoXamarinForms.Persistence
 {
@@ -12,22 +13,24 @@ namespace TodoXamarinForms.Persistence
             new TodoItem { Id = 2, Title = "Create TodoXamarinForms blog post"},
         };
 
-        public List<TodoItem> GetList()
+        public Task<List<TodoItem>> GetList()
         {
-            return _todoList;
+            return Task.FromResult(_todoList);
         }
 
-        public void DeleteItem(TodoItem itemToDelete)
+        public Task DeleteItem(TodoItem itemToDelete)
         {
             _todoList.Remove(itemToDelete);
+            return Task.Delay(100);
         }
 
-        public void ChangeItemIsCompleted(TodoItem itemToChange)
+        public Task ChangeItemIsCompleted(TodoItem itemToChange)
         {
             itemToChange.IsCompleted = !itemToChange.IsCompleted;
+            return Task.Delay(100);
         }
 
-        public void AddItem(TodoItem itemToAdd)
+        public Task AddItem(TodoItem itemToAdd)
         {
             throw new NotImplementedException();
         }

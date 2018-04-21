@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace TodoXamarinForms
@@ -8,7 +9,10 @@ namespace TodoXamarinForms
     {
         public TodoListViewModel()
         {
-            GroupedTodoList = GetGroupedTodoList();
+            GetGroupedTodoList().ContinueWith(t =>
+            {
+                GroupedTodoList = t.Result;
+            });
             Delete = new Command<TodoItem>(HandleDelete);
             ChangeIsCompleted = new Command<TodoItem>(HandleChangeIsCompleted);
         }
@@ -16,25 +20,27 @@ namespace TodoXamarinForms
         public ILookup<string, TodoItem> GroupedTodoList { get; set; }
         public string Title => "My Todo list";
 
-        private ILookup<string, TodoItem> GetGroupedTodoList()
+        private async Task<ILookup<string, TodoItem>> GetGroupedTodoList()
         {
-            return App.TodoRepository.GetList().OrderBy(t => t.IsCompleted).ToLookup(t => t.IsCompleted? "Completed" : "Active");
+            return (await App.TodoRepository.GetList())
+                             .OrderBy(t => t.IsCompleted)
+                             .ToLookup(t => t.IsCompleted? "Completed" : "Active");
         }
 
         public Command<TodoItem> Delete { get; set; }
-        public void HandleDelete(TodoItem itemToDelete)
+        public async void HandleDelete(TodoItem itemToDelete)
         {
-            App.TodoRepository.DeleteItem(itemToDelete);
+            await App.TodoRepository.DeleteItem(itemToDelete);
             // Update displayed list
-            GroupedTodoList = GetGroupedTodoList();
+            GroupedTodoList = await GetGroupedTodoList();
         }
         
         public Command<TodoItem> ChangeIsCompleted { get; set; }
-        public void HandleChangeIsCompleted(TodoItem itemToUpdate)
+        public async void HandleChangeIsCompleted(TodoItem itemToUpdate)
         {
-            App.TodoRepository.ChangeItemIsCompleted(itemToUpdate);
+            await App.TodoRepository.ChangeItemIsCompleted(itemToUpdate);
             // Update displayed list
-            GroupedTodoList = GetGroupedTodoList();
+            GroupedTodoList = await GetGroupedTodoList();
         }
         
     }
