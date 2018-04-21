@@ -6,10 +6,18 @@
     <ContentPage.Content>
         <ListView ItemsSource="{Binding GroupedTodoList}"
                   IsGroupingEnabled="True"
-                  GroupDisplayBinding="{Binding Key}">
+                  GroupDisplayBinding="{Binding Key}"
+                  x:Name="TodoDisplayList">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" />
+                    <TextCell Text="{Binding Title}" >
+                        <TextCell.ContextActions>
+                            <MenuItem Command="{Binding Source={x:Reference TodoDisplayList}, Path=BindingContext.ChangeIsCompleted }"
+                                      CommandParameter="{Binding .}" Text="Complete" />
+                            <MenuItem Command="{Binding Source={x:Reference TodoDisplayList}, Path=BindingContext.Delete }" 
+                                      CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
+                        </TextCell.ContextActions>
+                    </TextCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

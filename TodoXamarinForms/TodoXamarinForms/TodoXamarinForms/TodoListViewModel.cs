@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace TodoXamarinForms
 {
@@ -8,6 +9,8 @@ namespace TodoXamarinForms
         public TodoListViewModel()
         {
             GroupedTodoList = GetGroupedTodoList();
+            Delete = new Command<TodoItem>(HandleDelete);
+            ChangeIsCompleted = new Command<TodoItem>(HandleChangeIsCompleted);
         }
 
         public ILookup<string, TodoItem> GroupedTodoList { get; set; }
@@ -24,5 +27,24 @@ namespace TodoXamarinForms
         {
             return _todoList.OrderBy(t => t.IsCompleted).ToLookup(t => t.IsCompleted? "Completed" : "Active");
         }
+
+        public Command<TodoItem> Delete { get; set; }
+        public void HandleDelete(TodoItem itemToDelete)
+        {
+            // Remove item from private list
+            _todoList.Remove(itemToDelete);
+            // Update displayed list
+            GroupedTodoList = GetGroupedTodoList();
+        }
+        
+        public Command<TodoItem> ChangeIsCompleted { get; set; }
+        public void HandleChangeIsCompleted(TodoItem itemToUpdate)
+        {
+            // Change item's IsCompleted flag
+            itemToUpdate.IsCompleted = !itemToUpdate.IsCompleted;
+            // Update displayed list
+            GroupedTodoList = GetGroupedTodoList();
+        }
+        
     }
 }
