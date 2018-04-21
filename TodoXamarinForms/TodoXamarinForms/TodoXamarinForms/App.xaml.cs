@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using TodoXamarinForms.Persistence;
 using Xamarin.Forms;
 
 namespace TodoXamarinForms
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
+        public static TodoRepository TodoRepository = new TodoRepository();
+
 		public App ()
 		{
 			InitializeComponent();
