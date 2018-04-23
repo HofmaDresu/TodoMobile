@@ -47,7 +47,7 @@ namespace TodoXamarinForms.Persistence
 
         public Task AddItem(TodoItem itemToAdd)
         {
-            throw new NotImplementedException();
+            return _database.InsertAsync(itemToAdd);
         }
     }
 }
