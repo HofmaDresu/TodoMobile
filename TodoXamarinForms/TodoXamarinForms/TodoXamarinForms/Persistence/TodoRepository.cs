@@ -12,7 +12,6 @@ namespace TodoXamarinForms.Persistence
 
         public TodoRepository()
         {
-            //_database = new SQLiteAsyncConnection("TODO: file path");
             _database = new SQLiteAsyncConnection(DependencyService.Get<IFileHelper>().GetLocalFilePath("TodoSQLite.db3"));
             _database.CreateTableAsync<TodoItem>().Wait();            
         }
