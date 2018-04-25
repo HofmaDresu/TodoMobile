@@ -1,4 +1,7 @@
 ﻿using Foundation;
+using System;
+using System.IO;
+using TodoXamarinNative.Core;
 using UIKit;
 
 namespace TodoXamarinNative.iOS
@@ -10,6 +13,7 @@ namespace TodoXamarinNative.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
+        public static TodoRepository TodoRepository;
 
         public override UIWindow Window
         {
@@ -21,6 +25,16 @@ namespace TodoXamarinNative.iOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+            var docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var libFolder = Path.Combine(docFolder, "..", "Library", "Databases");
+
+            if (!Directory.Exists(libFolder))
+            {
+                Directory.CreateDirectory(libFolder);
+            }
+
+            var repositoryFilePath = Path.Combine(libFolder, "TodoRepository.db3");
+            TodoRepository = new TodoRepository(repositoryFilePath);
 
             return true;
         }
