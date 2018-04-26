@@ -2217,8 +2217,14 @@ namespace TodoXamarinNative.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f07009a
+			public const int TodoIsCompleted = 2131165338;
+			
 			// aapt resource value: 0x7f070072
 			public const int TodoList = 2131165298;
+			
+			// aapt resource value: 0x7f070099
+			public const int TodoTitle = 2131165337;
 			
 			// aapt resource value: 0x7f07008c
 			public const int action0 = 2131165324;
@@ -2918,6 +2924,9 @@ namespace TodoXamarinNative.Android
 			
 			// aapt resource value: 0x7f030037
 			public const int support_simple_spinner_dropdown_item = 2130903095;
+			
+			// aapt resource value: 0x7f030038
+			public const int TodoListItem = 2130903096;
 			
 			static Layout()
 			{

@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using GoogleAndroid = Android;
 using System.Linq;
 
 namespace TodoXamarinNative.Android
@@ -25,7 +24,7 @@ namespace TodoXamarinNative.Android
             base.OnResume();
 
             var todoList = await MainApplication.TodoRepository.GetList();
-            var adapter = new ArrayAdapter<string>(this, GoogleAndroid.Resource.Layout.SimpleListItem1, todoList.Select(t => t.Title).ToArray());
+            var adapter = new TodoAdapter(this, todoList.OrderBy(t => t.IsCompleted).ToList());
             _todoList.Adapter = adapter;
         }
     }
