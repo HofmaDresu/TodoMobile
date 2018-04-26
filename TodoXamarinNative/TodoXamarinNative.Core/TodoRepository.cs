@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +18,7 @@ namespace TodoXamarinNative.Core
         {
             new TodoItem { Title = "Create First Todo", IsCompleted = true},
             new TodoItem { Title = "Run a Marathon"},
-            new TodoItem { Title = "Create TodoXamarinForms blog post"},
+            new TodoItem { Title = "Create TodoXamarinNative blog post"},
         };
 
         public async Task<List<TodoItem>> GetList()
