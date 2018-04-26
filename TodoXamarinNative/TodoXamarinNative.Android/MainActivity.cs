@@ -2,13 +2,17 @@
 using Android.Widget;
 using Android.OS;
 using System.Linq;
+using TodoXamarinNative.Core;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TodoXamarinNative.Android
 {
     [Activity(Label = "TodoXamarinNative.Android", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        private ListView _todoList;
+        private ListView _todoListView;
+        private List<TodoItem> _todoList;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -16,16 +20,29 @@ namespace TodoXamarinNative.Android
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-            _todoList = FindViewById<ListView>(Resource.Id.TodoList);
+            _todoListView = FindViewById<ListView>(Resource.Id.TodoList);
         }
 
         protected override async void OnResume()
         {
             base.OnResume();
 
-            var todoList = await MainApplication.TodoRepository.GetList();
-            var adapter = new TodoAdapter(this, todoList.OrderBy(t => t.IsCompleted).ToList());
-            _todoList.Adapter = adapter;
+            await UpdateTodoList();
+        }
+
+        private async Task UpdateTodoList()
+        {
+            _todoList = await MainApplication.TodoRepository.GetList();
+            var adapter = new TodoAdapter(this, _todoList.OrderBy(t => t.IsCompleted).ToList());
+            adapter.OnCompletedChanged += HandleItemCompletedChanged;
+            _todoListView.Adapter = adapter;
+        }
+
+        private async void HandleItemCompletedChanged(object sender, int todoId)
+        {
+            var targetItem = _todoList.Single(t => t.Id == todoId);
+            await MainApplication.TodoRepository.ChangeItemIsCompleted(targetItem);
+            await UpdateTodoList();
         }
     }
 }

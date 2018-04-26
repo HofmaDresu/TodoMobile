@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
@@ -11,6 +12,7 @@ namespace TodoXamarinNative.Android
     {
         Context context;
         private List<TodoItem> _todoItems;
+        public EventHandler<int> OnCompletedChanged;
 
         public TodoAdapter(Context context, List<TodoItem> todoItems)
         {
@@ -50,10 +52,19 @@ namespace TodoXamarinNative.Android
             var currentTodoItem = _todoItems[position];
             holder.Title.Text = currentTodoItem.Title;
             holder.IsCompleted.Checked = currentTodoItem.IsCompleted;
+            holder.IsCompleted.Tag = currentTodoItem.Id;
+            holder.IsCompleted.CheckedChange -= IsCompleted_CheckedChange;
+            holder.IsCompleted.CheckedChange += IsCompleted_CheckedChange;
 
             return view;
+        }        
+
+        private void IsCompleted_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var id = (int)((View)sender).Tag;
+            OnCompletedChanged?.Invoke(sender, id);
         }
-        
+
         public override int Count
         {
             get
