@@ -1,9 +1,10 @@
 using System;
-
+using System.IO;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using TodoXamarinNative.Core;
 
 namespace TodoXamarinNative.Android
 {
@@ -11,6 +12,8 @@ namespace TodoXamarinNative.Android
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
+        public static TodoRepository TodoRepository;
+
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)
         {
@@ -21,6 +24,10 @@ namespace TodoXamarinNative.Android
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
             //A great place to initialize Xamarin.Insights and Dependency Services!
+
+            string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            var repositoryFilePath = Path.Combine(path, "TodoRepository.db3");
+            TodoRepository = new TodoRepository(repositoryFilePath);
         }
 
         public override void OnTerminate()
