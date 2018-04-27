@@ -62,9 +62,26 @@ namespace TodoXamarinNative.Android
             }
         }
 
-        public override bool OnContextItemSelected(IMenuItem item)
+        public override bool OnContextItemSelected(IMenuItem menuItem)
         {
-            return base.OnContextItemSelected(item);
+            switch (menuItem.GroupId)
+            {
+                case 0:
+                    var info = (AdapterContextMenuInfo)menuItem.MenuInfo;
+                    var item = _todoList.Single(t => t.Id == _todoListView.Adapter.GetItemId(info.Position));
+                    MainApplication.TodoRepository.DeleteItem(item)
+                        .ContinueWith(_ =>
+                        {
+                            RunOnUiThread(async () =>
+                            {
+                                await UpdateTodoList();
+                            });
+                        });
+                    return true;
+                default:
+                    return base.OnContextItemSelected(menuItem);
+            }
+
         }
     }
 }
