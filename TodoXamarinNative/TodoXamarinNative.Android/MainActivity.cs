@@ -81,7 +81,6 @@ namespace TodoXamarinNative.Android
                 default:
                     return base.OnContextItemSelected(menuItem);
             }
-
         }
     }
 }
