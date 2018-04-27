@@ -27,7 +27,7 @@ namespace TodoXamarinNative.Android
 
         public override long GetItemId(int position)
         {
-            return position;
+            return _todoItems[position].Id;
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -44,6 +44,7 @@ namespace TodoXamarinNative.Android
                 var inflater = context.GetSystemService(Context.LayoutInflaterService).JavaCast<LayoutInflater>();
 
                 view = inflater.Inflate(Resource.Layout.TodoListItem, parent, false);
+                view.LongClickable = true;
                 holder.Title = view.FindViewById<TextView>(Resource.Id.TodoTitle);
                 holder.IsCompleted = view.FindViewById<CheckBox>(Resource.Id.TodoIsCompleted);
                 view.Tag = holder;
