@@ -4,27 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
-  <EditText
-    android:id="@+id/TodoTitle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-  <LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Button
-      android:id="@+id/CancelButton"
-      android:text="Cancel"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:layout_marginLeft="5dp"/>
-    <Button
-      android:id="@+id/SaveButton"
-      android:text="Save"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:layout_marginRight="5dp"/>
-  </LinearLayout>
+    <EditText
+        android:id="@+id/TodoTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/CancelButton"
+            android:text="Cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+        <Button
+            android:id="@+id/SaveButton"
+            android:text="Save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
 </LinearLayout>

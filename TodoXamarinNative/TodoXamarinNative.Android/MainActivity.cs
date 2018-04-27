@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.Views;
 using static Android.Widget.AdapterView;
+using Android.Content;
 
 namespace TodoXamarinNative.Android
 {
-    [Activity(Label = "TodoXamarinNative.Android", MainLauncher = true)]
+    [Activity(Label = "Todo List", MainLauncher = true)]
     public class MainActivity : Activity
     {
         private ListView _todoListView;
@@ -23,6 +24,7 @@ namespace TodoXamarinNative.Android
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
             _todoListView = FindViewById<ListView>(Resource.Id.TodoList);
+            FindViewById<Button>(Resource.Id.AddNewItem).Click += (s, e) => StartActivity(new Intent(this, typeof(AddTodoItemActivity)));
         }
 
         protected override async void OnResume()
