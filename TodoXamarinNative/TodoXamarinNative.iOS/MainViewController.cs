@@ -53,6 +53,12 @@ namespace TodoXamarinNative.iOS
             await PopulateTable();
             _todoTableDelegate.OnIsCompletedToggled += HandleIsCompletedToggled;
             _todoTableDelegate.OnTodoDeleted += HandleTodoDeleted;
+            _addItemButton.TouchUpInside += AddItemTouched;
+        }
+
+        private void AddItemTouched(object sender, System.EventArgs e)
+        {
+            NavigationController.PushViewController(new AddTodoItemViewController(), true);
         }
 
         private async Task PopulateTable()
@@ -68,6 +74,7 @@ namespace TodoXamarinNative.iOS
             base.ViewDidDisappear(animated);
             _todoTableDelegate.OnIsCompletedToggled -= HandleIsCompletedToggled;
             _todoTableDelegate.OnTodoDeleted -= HandleTodoDeleted;
+            _addItemButton.TouchUpInside -= AddItemTouched;
         }
 
         private async void HandleIsCompletedToggled(object sender, TodoItem targetItem)
