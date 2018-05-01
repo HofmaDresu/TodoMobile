@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using CoreGraphics;
+using System.Threading.Tasks;
 using TodoXamarinNative.Core;
 using UIKit;
 
@@ -8,6 +9,7 @@ namespace TodoXamarinNative.iOS
     {
         private UITableView _todoTableView;
         private TodoTableDelegate _todoTableDelegate;
+        private UIButton _addItemButton;
 
         public MainViewController()
         {
@@ -27,10 +29,21 @@ namespace TodoXamarinNative.iOS
             };
             View.Add(_todoTableView);
 
+            _addItemButton = new UIButton(UIButtonType.System)
+            {
+                TranslatesAutoresizingMaskIntoConstraints = false,
+            };
+            _addItemButton.SetTitle("Add Todo Item", UIControlState.Normal);
+            View.Add(_addItemButton);
+
             _todoTableView.TopAnchor.ConstraintEqualTo(View.TopAnchor).Active = true;
-            _todoTableView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor).Active = true;
+            _todoTableView.BottomAnchor.ConstraintEqualTo(_addItemButton.TopAnchor).Active = true;
             _todoTableView.LeftAnchor.ConstraintEqualTo(View.LeftAnchor).Active = true;
             _todoTableView.RightAnchor.ConstraintEqualTo(View.RightAnchor).Active = true;
+
+            _addItemButton.TopAnchor.ConstraintEqualTo(_todoTableView.BottomAnchor).Active = true;
+            _addItemButton.BottomAnchor.ConstraintEqualTo(View.LayoutMarginsGuide.BottomAnchor).Active = true;
+            _addItemButton.CenterXAnchor.ConstraintEqualTo(View.CenterXAnchor).Active = true;
         }
 
         public override async void ViewDidAppear(bool animated)
