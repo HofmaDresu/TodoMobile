@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using TodoXamarinNative.Core;
 using UIKit;
@@ -13,7 +14,7 @@ namespace TodoXamarinNative.iOS
 
         public TodoItemTableSource(List<TodoItem> todoItems)
         {
-            _todoItems = todoItems;
+            _todoItems = todoItems.OrderBy(t => t.IsCompleted).ToList();
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -25,7 +26,12 @@ namespace TodoXamarinNative.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _todoItems.Count;
+            return _todoItems.Count(t => t.IsCompleted == (section == 1));
         }
+
+        public override nint NumberOfSections(UITableView tableView) => 2;
+
+        public override string TitleForHeader(UITableView tableView, nint section) => section == 0 ? "Active" : "Completed";
+
     }
 }
