@@ -31,8 +31,6 @@ export default class TodoListScreen extends React.Component {
   }
   deleteItem(itemKey) {
     this.setState((prevState, props) => {
-
-
       // Use a temporary variable to avoid directly modifying state
       let tempTodoItems = prevState.todoItems;
       const deletedItemIndex = tempTodoItems.findIndex(item => item.key === itemKey);
