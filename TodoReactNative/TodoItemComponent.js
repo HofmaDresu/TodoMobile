@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function TodoItem({title, isCompleted, ...props}) {
+export default function TodoItem({title, ...props}) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
