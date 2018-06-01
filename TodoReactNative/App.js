@@ -1,23 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import TodoList from './TodoListComponent';
 
+const todoItems = [
+  { key: '0', title: "Create first todo", isCompleted: true },
+  { key: '1', title: "Climb a mountain", isCompleted: false },
+  { key: '2', title: "Create React Native blog post", isCompleted: false },
+ ];
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <TodoList todoItems={todoItems} />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
