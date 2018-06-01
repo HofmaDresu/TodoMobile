@@ -1,21 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
-function TodoItemActionButton({title, isDestructive, ...props}) {
+function TodoItemActionButton({title, isDestructive, onPress, ...props}) {
   return (
-    <TouchableHighlight style={ isDestructive ? styles.destructiveActionButton : styles.actionButton }>
+    <TouchableHighlight style={ isDestructive ? styles.destructiveActionButton : styles.actionButton } 
+      onPress={onPress}>
       <Text style={styles.actionButtonText}>{title}</Text>
     </TouchableHighlight>
   );
 }
 
-export default function TodoItem({itemKey, title, isCompleted, ...props}) {
+export default function TodoItem({itemKey, title, isCompleted, onToggleCompleted, ...props}) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.todoTitle}>{title}</Text>
-        <TodoItemActionButton title={isCompleted ? "Uncomplete" : "Complete"} isDestructive={false} />
-        <TodoItemActionButton  title="Delete" isDestructive={true} />
+        <TodoItemActionButton title={isCompleted ? "Uncomplete" : "Complete"} 
+          isDestructive={false}
+          onPress={() => onToggleCompleted(itemKey)} />
+        <TodoItemActionButton title="Delete" 
+          isDestructive={true}
+          onPress={() => {}/*TODO*/} />
       </View>
       <View style={styles.border} />
     </View>
