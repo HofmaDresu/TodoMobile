@@ -10,7 +10,8 @@ function TodoItemActionButton({title, isDestructive, onPress, ...props}) {
   );
 }
 
-export default function TodoItem({itemKey, title, isCompleted, onToggleCompleted, ...props}) {
+export default function TodoItem({itemKey, title, isCompleted, onToggleCompleted,
+                                  onDeleteItem, ...props}) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -20,7 +21,7 @@ export default function TodoItem({itemKey, title, isCompleted, onToggleCompleted
           onPress={() => onToggleCompleted(itemKey)} />
         <TodoItemActionButton title="Delete" 
           isDestructive={true}
-          onPress={() => {}/*TODO*/} />
+          onPress={() => onDeleteItem(itemKey)} />
       </View>
       <View style={styles.border} />
     </View>

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, SectionList, Text, Alert} from 'react-native';
 import TodoItemComponent from './TodoItemComponent';
 
-export default function TodoList({todoItems, onToggleItemCompleted, ...props}) {
+export default function TodoList({todoItems, onToggleItemCompleted, onDeleteItem, ...props}) {
   let activeItems = todoItems.filter(i => !i.isCompleted);
   let completedItems = todoItems.filter(i => i.isCompleted);
   let sections = [
@@ -14,7 +14,8 @@ export default function TodoList({todoItems, onToggleItemCompleted, ...props}) {
     <SectionList style={styles.container}
       sections={sections}
       renderItem={({item, index, section}) => <TodoItemComponent {...item} itemKey={item.key}
-                                                onToggleCompleted={onToggleItemCompleted} />}
+                                                onToggleCompleted={onToggleItemCompleted}
+                                                onDeleteItem={onDeleteItem} />}
       renderSectionHeader={({section: {title}}) => (
         <Text style={styles.sectionHeader}>{title}</Text>
       )}

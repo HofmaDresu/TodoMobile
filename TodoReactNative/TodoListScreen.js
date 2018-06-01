@@ -15,9 +15,10 @@ export default class TodoListScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {todoItems};
-    
+
     // This binding is necessary to make `this` work in the callback
     this.toggleItemCompleted = this.toggleItemCompleted.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
   toggleItemCompleted(itemKey) {
     this.setState((prevState, props) => {
@@ -27,12 +28,22 @@ export default class TodoListScreen extends React.Component {
       tempTodoItems[toggledItemIndex].isCompleted = !tempTodoItems[toggledItemIndex].isCompleted;
       return {todoItems: tempTodoItems};
     });
+  }
+  deleteItem(itemKey) {
+    this.setState((prevState, props) => {
 
+
+      // Use a temporary variable to avoid directly modifying state
+      let tempTodoItems = prevState.todoItems;
+      const deletedItemIndex = tempTodoItems.findIndex(item => item.key === itemKey);
+      tempTodoItems.splice(deletedItemIndex, 1);
+      return {todoItems: tempTodoItems};
+    });
   }
   render() {
-
     return (
-      <TodoList todoItems={todoItems} onToggleItemCompleted={this.toggleItemCompleted} />
+      <TodoList todoItems={todoItems} onToggleItemCompleted={this.toggleItemCompleted}
+        onDeleteItem={this.deleteItem} />
     );
   }
 }
