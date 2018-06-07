@@ -24,20 +24,10 @@ export default class TodoListScreen extends React.Component {
 
     this.initializeTodoList();
   }
-  initializeTodoList() {
-    AsyncStorage.getAllKeys((err, keys) => {
-      AsyncStorage.multiGet(keys, (err, stores) => {
-        let todoItems = stores.length ? stores : initialTodoItems;
-        let nextAvailableKey = Math.max(todoItems.map(todo => parseInt(todo.key, 10))) + 1;
+  async initializeTodoList() {
+    const todoItems = (await AsyncStorage.getItem("todoList")) || initialTodoItems;
 
-        this.setState({todoItems, nextAvailableKey})
-        if(stores.length) {
-          todoItems = stores;
-        } else {
-          todoItems = initialTodoItems;
-        }
-      });
-    });
+    this.setState({todoItems});
   }
   toggleItemCompleted(itemKey) {
     this.setState((prevState, props) => {
