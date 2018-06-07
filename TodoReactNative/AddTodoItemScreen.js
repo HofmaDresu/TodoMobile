@@ -8,7 +8,7 @@ export default class TodoListScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text title="Welcome to Add" />
+        <Text>Welcome to Add</Text>
       </View>
     );
   }
