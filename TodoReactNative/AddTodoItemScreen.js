@@ -20,7 +20,7 @@ export default class TodoListScreen extends React.Component {
       const storedTodoArray = JSON.parse(storedTodoItems);
       if(storedTodoArray.length) {
           todoItems = storedTodoArray;
-          nextTodoKey = Math.max(todoItems.map(t => parseInt(t.key))) + 1;
+          nextTodoKey = Math.max(...(todoItems.map(t =>parseInt(t.key)))) + 1;
       }
     }
 
