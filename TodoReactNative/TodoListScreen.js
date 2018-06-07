@@ -32,7 +32,8 @@ export default class TodoListScreen extends React.Component {
       if(storedTodoArray.length) todoItems = storedTodoArray;
     }
 
-    this.setState({todoItems: todoItems});
+    this.setState({todoItems: todoItems}
+      , () => AsyncStorage.setItem("todoList", JSON.stringify(this.state.todoItems)));
   }
   toggleItemCompleted(itemKey) {
     this.setState((prevState, props) => {
