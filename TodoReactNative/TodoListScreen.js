@@ -25,9 +25,14 @@ export default class TodoListScreen extends React.Component {
     this.initializeTodoList();
   }
   async initializeTodoList() {
-    const todoItems = (await AsyncStorage.getItem("todoList")) || initialTodoItems;
+    let todoItems = initialTodoItems.slice();
+    const storedTodoItems = await AsyncStorage.getItem("todoList");
+    if(storedTodoItems != null) {
+      const storedTodoArray = JSON.parse(storedTodoItems);
+      if(storedTodoArray.length) todoItems = storedTodoArray;
+    }
 
-    this.setState({todoItems});
+    this.setState({todoItems: todoItems});
   }
   toggleItemCompleted(itemKey) {
     this.setState((prevState, props) => {
@@ -35,8 +40,9 @@ export default class TodoListScreen extends React.Component {
       const tempTodoItems = prevState.todoItems;
       const toggledItemIndex = tempTodoItems.findIndex(item => item.key === itemKey);
       tempTodoItems[toggledItemIndex].isCompleted = !tempTodoItems[toggledItemIndex].isCompleted;
+
       return {todoItems: tempTodoItems};
-    });
+    }, () => AsyncStorage.setItem("todoList", JSON.stringify(this.state.todoItems)));
   }
   deleteItem(itemKey) {
     this.setState((prevState, props) => {
@@ -45,7 +51,7 @@ export default class TodoListScreen extends React.Component {
       const deletedItemIndex = tempTodoItems.findIndex(item => item.key === itemKey);
       tempTodoItems.splice(deletedItemIndex, 1);
       return {todoItems: tempTodoItems};
-    });
+    }, () => AsyncStorage.setItem("todoList", JSON.stringify(this.state.todoItems)));
   }
   render() {
     return (
