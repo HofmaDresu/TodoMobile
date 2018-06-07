@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import TodoList from './TodoListComponent';
 
-const todoItems = [
+const initialTodoItems = [
   { key: '0', title: "Create first todo", isCompleted: true },
   { key: '1', title: "Climb a mountain", isCompleted: false },
   { key: '2', title: "Create React Native blog post", isCompleted: false },
@@ -14,11 +14,30 @@ export default class TodoListScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = {todoItems};
+
+    this.state = { todoItems: [] };
 
     // This binding is necessary to make `this` work in the callback
     this.toggleItemCompleted = this.toggleItemCompleted.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.initializeTodoList = this.initializeTodoList.bind(this);
+
+    this.initializeTodoList();
+  }
+  initializeTodoList() {
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        let todoItems = stores.length ? stores : initialTodoItems;
+        let nextAvailableKey = Math.max(todoItems.map(todo => parseInt(todo.key, 10))) + 1;
+
+        this.setState({todoItems, nextAvailableKey})
+        if(stores.length) {
+          todoItems = stores;
+        } else {
+          todoItems = initialTodoItems;
+        }
+      });
+    });
   }
   toggleItemCompleted(itemKey) {
     this.setState((prevState, props) => {
@@ -40,7 +59,7 @@ export default class TodoListScreen extends React.Component {
   }
   render() {
     return (
-      <TodoList todoItems={todoItems} onToggleItemCompleted={this.toggleItemCompleted}
+      <TodoList todoItems={this.state.todoItems} onToggleItemCompleted={this.toggleItemCompleted}
         onDeleteItem={this.deleteItem} />
     );
   }
