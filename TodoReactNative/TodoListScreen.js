@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 import TodoList from './TodoListComponent';
 
 const initialTodoItems = [
@@ -55,8 +55,23 @@ export default class TodoListScreen extends React.Component {
   }
   render() {
     return (
-      <TodoList todoItems={this.state.todoItems} onToggleItemCompleted={this.toggleItemCompleted}
-        onDeleteItem={this.deleteItem} />
+      <View style={styles.container}>
+        <TodoList todoItems={this.state.todoItems} onToggleItemCompleted={this.toggleItemCompleted}
+          onDeleteItem={this.deleteItem} style={styles.todoList} />
+        <Button title="Add Item" onPress={() => {}} />
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+  },
+  todoList: {
+    flexGrow: 1,
+  },
+});
+
