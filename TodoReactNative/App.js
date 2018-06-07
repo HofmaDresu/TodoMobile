@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import TodoListScreen from './TodoListScreen';
+import AddTodoScreen from './AddTodoItemScreen';
 import { createStackNavigator } from 'react-navigation';
 
 export default createStackNavigator({
   Home: TodoListScreen ,
+  AddTodoScreen,
 });

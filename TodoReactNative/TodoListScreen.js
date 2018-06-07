@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Button, AsyncStorage } from 'react-native';
 import TodoList from './TodoListComponent';
 
 const initialTodoItems = [
@@ -54,11 +54,12 @@ export default class TodoListScreen extends React.Component {
     }, () => AsyncStorage.setItem("todoList", JSON.stringify(this.state.todoItems)));
   }
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <TodoList todoItems={this.state.todoItems} onToggleItemCompleted={this.toggleItemCompleted}
           onDeleteItem={this.deleteItem} style={styles.todoList} />
-        <Button title="Add Item" onPress={() => {}} />
+        <Button title="Add Item" onPress={() => navigate('AddTodoScreen')} />
       </View>
     );
   }
