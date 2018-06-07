@@ -21,8 +21,15 @@ export default class TodoListScreen extends React.Component {
     this.toggleItemCompleted = this.toggleItemCompleted.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.initializeTodoList = this.initializeTodoList.bind(this);
-
-    this.initializeTodoList();
+  }
+  componentDidMount() {
+    this._sub = this.props.navigation.addListener(
+      'didFocus',
+      this.initializeTodoList
+    );
+  }
+  componentWillUnmount() {
+    this._sub.remove();
   }
   async initializeTodoList() {
     let todoItems = initialTodoItems.slice();
