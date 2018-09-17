@@ -44,7 +44,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   Future<Null> _displayDeleteConfirmationDialog(TodoItem item) {
     return showDialog<Null>(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: true, // Allow dismiss when tapping away from dialog
       builder: (BuildContext context) {
         return  AlertDialog(
           title: Text("Delete TODO"),
@@ -52,13 +52,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
           actions: <Widget>[
             FlatButton(
               child: Text("Cancel"),
-              onPressed: Navigator.of(context).pop,
+              onPressed: Navigator.of(context).pop, // Close dialog
             ),
             FlatButton(
               child: Text("Delete"),
               onPressed: () {
                 _deleteTodoItem(item);
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Close dialog
               },
             ),
           ],
