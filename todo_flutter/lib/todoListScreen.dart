@@ -16,16 +16,18 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   initState() {
     super.initState();
+    // TODO use dynamic todo items
     _todoItems.add(TodoItem(id: 0, name: "Create First Todo", isComplete: true));
     _todoItems.add(TodoItem(id: 1, name: "Run a Marathon"));
     _todoItems.add(TodoItem(id: 2, name: "Create Todo_Flutter blog post"));
   }
 
   void _addTodoItem() {
-    // TODO
+    // TODO navigate to Create Todo Item Screen
   }
 
   Widget _createTodoItemWidget(TodoItem item) {
+    // TODO customize todo item display to show completion status
     return ListTile(
       title: Text(item.name),
     );
@@ -33,6 +35,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _todoItems.sort();
     final todoItemWidgets = _todoItems.map(_createTodoItemWidget).toList();
 
     return Scaffold(
