@@ -26,12 +26,19 @@ class _TodoListScreenState extends State<TodoListScreen> {
     // TODO navigate to Create Todo Item Screen
   }
 
+  void _updateTodoCompleteStatus(TodoItem item, bool newStatus) {
+    final tempTodoItems = _todoItems;
+    tempTodoItems.firstWhere((i) => i.id ==item.id).isComplete = newStatus;
+    setState(() { _todoItems = tempTodoItems; });
+    // TODO: Persist change
+  }
+
   Widget _createTodoItemWidget(TodoItem item) {
     return ListTile(
       title: Text(item.name),
       trailing: Checkbox(
         value: item.isComplete,
-        onChanged: (value) => { }
+        onChanged: (value) => _updateTodoCompleteStatus(item, value),
       ),
     );
   }
