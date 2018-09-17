@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'todoItem.dart';
+import 'dart:async';
 
 class TodoListScreen extends StatefulWidget {
   TodoListScreen({Key key, this.title}) : super(key: key);
@@ -33,6 +34,40 @@ class _TodoListScreenState extends State<TodoListScreen> {
     // TODO: Persist change
   }
 
+  void _deleteTodoItem(TodoItem item) {
+    final tempTodoItems = _todoItems;
+    tempTodoItems.remove(item);
+    setState(() { _todoItems = tempTodoItems; });
+    // TODO: Persist change
+  }
+
+  Future<Null> _displayDeleteConfirmationDialog(TodoItem item) {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return  AlertDialog(
+          title: Text("Delete TODO"),
+          content: Text("Do you want to delete \"${item.name}\"?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancel"),
+              onPressed: Navigator.of(context).pop,
+            ),
+            FlatButton(
+              child: Text("Delete"),
+              onPressed: () {
+                _deleteTodoItem(item);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+
+      }
+    );
+  }
+
   Widget _createTodoItemWidget(TodoItem item) {
     return ListTile(
       title: Text(item.name),
@@ -40,6 +75,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
         value: item.isComplete,
         onChanged: (value) => _updateTodoCompleteStatus(item, value),
       ),
+      onLongPress: () => _displayDeleteConfirmationDialog(item),
     );
   }
 
