@@ -27,9 +27,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 
   Widget _createTodoItemWidget(TodoItem item) {
-    // TODO customize todo item display to show completion status
     return ListTile(
       title: Text(item.name),
+      trailing: Checkbox(
+        value: item.isComplete,
+        onChanged: (value) => { }
+      ),
     );
   }
 
