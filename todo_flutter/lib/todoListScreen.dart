@@ -36,17 +36,20 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 
   void _updateTodoCompleteStatus(TodoItem item, bool newStatus) {
-    final tempTodoItems = _todoItems;
-    tempTodoItems.firstWhere((i) => i.id ==item.id).isComplete = newStatus;
-    setState(() { _todoItems = tempTodoItems; });
-    // TODO: Persist change
+    item.isComplete = newStatus;
+    _dataAccess.updateTodo(item);
+    _dataAccess.getTodoItems()
+      .then((items) {
+        setState(() { _todoItems = items; });
+      });
   }
 
   void _deleteTodoItem(TodoItem item) {
-    final tempTodoItems = _todoItems;
-    tempTodoItems.remove(item);
-    setState(() { _todoItems = tempTodoItems; });
-    // TODO: Persist change
+    _dataAccess.deleteTodo(item);
+    _dataAccess.getTodoItems()
+      .then((items) {
+        setState(() { _todoItems = items; });
+      });
   }
 
   Future<Null> _displayDeleteConfirmationDialog(TodoItem item) {

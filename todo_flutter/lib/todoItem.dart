@@ -33,5 +33,4 @@ class TodoItem extends Comparable {
     }
     return map;
   }
-
 }

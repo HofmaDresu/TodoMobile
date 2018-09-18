@@ -46,4 +46,13 @@ class DataAccess {
   Future insertTodo(TodoItem item) {
     return _db.insert(todoTable, item.toMap());
   }
+
+  Future updateTodo(TodoItem item) {
+    return _db.update(todoTable, item.toMap(),
+      where: "id = ?", whereArgs: [item.id]);
+  }
+  
+  Future deleteTodo(TodoItem item) {
+    return _db.delete(todoTable, where: "id = ?", whereArgs: [item.id]);
+  }
 }
