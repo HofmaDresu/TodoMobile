@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'todoItem.dart';
 import 'dart:async';
+import 'todoItem.dart';
+import 'dataAccess.dart';
 
 class TodoListScreen extends StatefulWidget {
   TodoListScreen({Key key, this.title}) : super(key: key);
@@ -13,14 +14,21 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   List<TodoItem> _todoItems = List();
+  DataAccess _dataAccess;
+
+  _TodoListScreenState() {
+    _dataAccess = DataAccess();
+  }
 
   @override
   initState() {
     super.initState();
-    // TODO use dynamic todo items
-    _todoItems.add(TodoItem(id: 0, name: "Create First Todo", isComplete: true));
-    _todoItems.add(TodoItem(id: 1, name: "Run a Marathon"));
-    _todoItems.add(TodoItem(id: 2, name: "Create Todo_Flutter blog post"));
+    _dataAccess.open().then((result) { 
+      _dataAccess.getTodoItems()
+                .then((r) {
+                  setState(() { _todoItems = r; });
+                });
+    });
   }
 
   void _addTodoItem() {
