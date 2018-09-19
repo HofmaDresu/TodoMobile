@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dataAccess.dart';
+import 'todoItem.dart';
 
 class AddTodoItemScreen extends StatefulWidget {
   @override
@@ -6,6 +8,8 @@ class AddTodoItemScreen extends StatefulWidget {
 }
 
 class _AddTodoItemScreenState extends State<AddTodoItemScreen> {
+  final _todoNameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +19,10 @@ class _AddTodoItemScreenState extends State<AddTodoItemScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              TextFormField(decoration: InputDecoration(labelText: "Todo Name")),
+              TextFormField(
+                decoration: InputDecoration(labelText: "Todo Name"),
+                controller: _todoNameController,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -28,7 +35,9 @@ class _AddTodoItemScreenState extends State<AddTodoItemScreen> {
                   RaisedButton(
                     child: Text("Save"),
                     onPressed: () {
-                      //TODO: Save
+                      // Here we're depending on TodoListScreen to have opened our database
+                      // In a real app we would want to design this more robustly
+                      DataAccess().insertTodo(TodoItem(name: _todoNameController.text));
                       Navigator.pop(context);
                     },
                   )
@@ -38,5 +47,11 @@ class _AddTodoItemScreenState extends State<AddTodoItemScreen> {
           )
         )
       );
+  }
+
+  @override
+  void dispose() {
+    _todoNameController.dispose();
+    super.dispose();
   }
 }
