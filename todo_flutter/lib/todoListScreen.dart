@@ -32,8 +32,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
     });
   }
 
-  void _addTodoItem() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => AddTodoItemScreen()));
+  void _addTodoItem() async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddTodoItemScreen()));
+    _dataAccess.getTodoItems()
+                .then((r) {
+                  setState(() { _todoItems = r; });
+                });
   }
 
   void _updateTodoCompleteStatus(TodoItem item, bool newStatus) {
