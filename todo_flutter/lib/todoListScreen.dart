@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'todoItem.dart';
 import 'dataAccess.dart';
+import 'addTodoItemScreen.dart';
 
 class TodoListScreen extends StatefulWidget {
   TodoListScreen({Key key, this.title}) : super(key: key);
@@ -32,7 +33,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 
   void _addTodoItem() {
-    // TODO navigate to Create Todo Item Screen
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AddTodoItemScreen()));
   }
 
   void _updateTodoCompleteStatus(TodoItem item, bool newStatus) {
